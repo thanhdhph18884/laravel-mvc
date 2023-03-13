@@ -1,0 +1,46 @@
+<?php $_shouldextend[1]=1; ?>
+
+<?php $this->startSection('title', 'list product'); ?>
+
+<?php $this->startSection('content'); ?>
+ <?php
+ if (isset($_SESSION['mess'])) {
+ $message = '<div class="bg-success p-2 text-lg my-2 rounded">' . $_SESSION['mess'] . '</div>';
+ } else {
+ $message = '';
+ }
+ unset($_SESSION['mess']);
+ echo $message;
+ ?>
+ <table class="table">
+ <a href="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>create" class="btn btn-primary">Thêm</a>
+ <thead>
+ <tr>
+ <th scope="col">#</th>
+ <th scope="col">Name</th>
+ <th scope="col">Email</th>
+ <th scope="col">Image</th>
+ <th scope="col">Birthday</th>
+ <th scope="col">Action</th>
+ </tr>
+ </thead>
+ <tbody>
+ <?php $__currentLoopData = $products; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $key => $product): $loop = $this->incrementLoopIndices();  ?>
+ <tr>
+ <th scope="row"><?php echo \htmlentities($key + 1??'', ENT_QUOTES, 'UTF-8', false); ?></th>
+ <td><?php echo \htmlentities($product->name??'', ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td><?php echo \htmlentities($product->email??'', ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td><img width="300px" src="<?php echo \htmlentities(BASE_URL . $product->image??'', ENT_QUOTES, 'UTF-8', false); ?>" alt=""></td>
+ <td><?php echo \htmlentities($product->birthday??'', ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td>
+ <a href="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/edit/<?php echo \htmlentities($product->id??'', ENT_QUOTES, 'UTF-8', false); ?>" class="btn btn-warning">Edit</a>
+ <a href="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/destroy/<?php echo \htmlentities($product->id??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ onclick="return confirm('Ban co muon xoa khong?')" class="btn btn-danger">Delete</a>
+ </td>
+ </tr>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </tbody>
+</table><?php $this->stopSection(); ?>
+
+<?php if (isset($_shouldextend[1])) { echo $this->runChild('layouts.master'); } ?>
